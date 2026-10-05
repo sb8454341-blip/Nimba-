@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#009460">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Nimba Business</title>
+<style>
+:root{--r:#CE1126;--y:#FCD116;--g:#009460;--bg:#f6f5ef;--tx:#1d1d1b;--mu:#6b6a62;--ln:#e2e0d4}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:16px}
+#app{min-height:100%;display:flex;flex-direction:column}
+.tri{height:6px;background:linear-gradient(90deg,var(--r) 33.3%,var(--y) 33.3% 66.6%,var(--g) 66.6%)}
+header{background:#fff;border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:5;padding-top:env(safe-area-inset-top,0)}
+.hd{padding:10px 16px;display:flex;justify-content:space-between;align-items:baseline}
+.hd span{color:var(--g);font-weight:700;font-size:13px}
+main{flex:1;padding:14px 14px 90px;max-width:640px;width:100%;margin:0 auto}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--ln);display:flex;padding-bottom:env(safe-area-inset-bottom,0);z-index:5}
+nav button{flex:1;border:0;background:none;padding:9px 0 8px;font-size:11px;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px;border-top:3px solid transparent}
+nav button i{font-style:normal;font-size:19px}
+nav button.on{color:var(--g);font-weight:700;border-top-color:var(--g)}
+h3{margin:18px 0 8px;font-size:15px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.k{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:12px}
+.k.big{grid-column:1/3;background:var(--g);color:#fff;border:0}
+.k small{display:block;font-size:12px;opacity:.8;margin-bottom:4px}
+.k b{font-size:18px}.k.big b{font-size:26px}
+.btn{display:block;width:100%;border:0;border-radius:10px;background:var(--g);color:#fff;font-size:16px;font-weight:700;padding:14px;margin:10px 0}
+.btn.big{background:var(--r)}.btn.ghost{background:#fff;color:var(--g);border:2px solid var(--g)}
+.btn.danger{background:#fff;color:var(--r);border:2px solid var(--r)}
+.btn.sm{width:auto;padding:10px 14px;margin:0;white-space:nowrap}
+.btn:disabled{opacity:.4}
+input,select{width:100%;padding:12px;border:1px solid var(--ln);border-radius:10px;font-size:16px;background:#fff;margin:5px 0;font-family:inherit}
+label{font-size:13px;color:var(--mu)}
+.bar{display:flex;gap:8px;align-items:center;margin-bottom:8px}.bar input{margin:0}
+.row{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--ln);border-radius:10px;padding:10px;margin-bottom:8px}
+.row.warn{border-left:5px solid var(--r);justify-content:space-between}
+.row.void{opacity:.5;text-decoration:line-through}
+.g{flex:1;min-width:0}.g small{display:block;color:var(--mu);font-size:12px;margin-top:2px}
+.ph{width:44px;height:44px;border-radius:8px;object-fit:cover;background:var(--y);display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.qty{font-weight:800;font-size:18px;color:var(--g)}.qty.low{color:var(--r)}
+.empty{color:var(--mu);text-align:center;padding:22px 10px;font-size:14px}
+.seg{display:flex;background:#e9e7da;border-radius:10px;padding:3px;margin-bottom:10px}
+.seg button{flex:1;border:0;background:none;padding:10px;border-radius:8px;font-size:14px;font-weight:600;color:var(--mu)}
+.seg button.on{background:#fff;color:var(--tx)}
+.card{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:14px;margin:10px 0}
+.tot{display:flex;justify-content:space-between;font-size:20px;margin-bottom:6px}
+.ctl{display:flex;align-items:center;gap:10px}
+.ctl button{width:36px;height:36px;border-radius:50%;border:2px solid var(--g);background:#fff;color:var(--g);font-size:20px;font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pv{width:70px;height:70px;object-fit:cover;border-radius:8px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:640px;max-height:90%;overflow:auto;border-radius:16px 16px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0))}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:17px}
+.sh button{border:0;background:none;font-size:22px}
+.line{display:flex;justify-content:space-between;padding:5px 0;font-size:14px;border-bottom:1px dashed var(--ln)}
+.auth{max-width:420px;margin:0 auto;padding:30px 18px;text-align:center}
+.logo{width:76px;height:76px;margin:0 auto 10px;border-radius:20px;background:#000;color:var(--y);font-size:44px;font-weight:900;display:flex;align-items:center;justify-content:center;border-bottom:6px solid var(--g);border-top:6px solid var(--r)}
+.auth h1{font-size:28px}.sl{color:var(--mu);margin:4px 0 18px;font-size:14px}
+.auth .card{text-align:left}.lnk{display:flex;justify-content:space-between;font-size:14px;color:var(--g);font-weight:600}
+.lnk a{padding:6px 0}
+.by{margin-top:22px;font-size:12px;color:var(--mu)}
+.splash{min-height:100vh;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.splash .logo{width:96px;height:96px;font-size:56px}
+.bar2{width:140px;height:5px;background:#333;border-radius:3px;margin-top:22px;overflow:hidden}
+.bar2 i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--r),var(--y),var(--g));animation:ld 1.2s forwards}
+@keyframes ld{to{width:100%}}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;z-index:30;display:none;max-width:90%}
+.plan{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--ln);font-size:14px}
+</style></head>
+<body><div id="app"></div><div id="modal"></div><div id="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const $=s=>document.querySelector(s),K='nimba_business_v2';
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Math.round(n||0).toLocaleString('fr-FR')+' GNF';
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const hs=s=>btoa(unescape(encodeURIComponent(s)));
+let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!S.users)S={users:[],cur:null,data:{}};
+if(!S.sub)S.sub={};if(!S.lang)S.lang='fr';
+const D=()=>S.data[S.cur];
+const CFG={apiKey:"AIzaSyChOxk2swtfwMf9ziFJ45J4TEaRJmbRYR8",authDomain:"nimba-business.firebaseapp.com",projectId:"nimba-business",storageBucket:"nimba-business.firebasestorage.app",messagingSenderId:"458483687565",appId:"1:458483687565:web:1b2c02769b330fffbe02c4"};
+let DB=null;try{firebase.initializeApp(CFG);DB=firebase.firestore()}catch(e){}
+const ADMIN='614553723';
+const norm=s=>{let d=(s||'').replace(/\D/g,'');if(d.length==12&&d.startsWith('224'))d=d.slice(3);return d};
+const subOK=()=>(S.sub[S.cur]||0)>Date.now();
+function persist(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){toast('Mémoire du téléphone pleine')}}
+function save(){if(S.cur&&D()){D().ts=Date.now();push()}persist()}
+let PT;
+function push(){
+ clearTimeout(PT);
+ PT=setTimeout(async()=>{try{if(DB&&S.cur&&D()){const d=D();await DB.collection('data').doc(S.cur).set({json:JSON.stringify(d),ts:d.ts});await DB.collection('profiles').doc(S.cur).set({shop:d.shop},{merge:true})}}catch(e){}},1500);
+}
+async function pull(){
+ const ph=S.cur;if(!DB||!ph)return;
+ try{
+  const r=await Promise.all([DB.collection('data').doc(ph).get(),DB.collection('profiles').doc(ph).get()]),d=r[0],p=r[1];
+  if(p.exists)S.sub[ph]=p.data().subEnd||0;
+  if(d.exists){const x=JSON.parse(d.data().json),l=S.data[ph];if(!l||(x.ts||0)>(l.ts||0))S.data[ph]=x}
+  else if(S.data[ph])push();
+ }catch(e){}
+ if(!S.data[ph])S.data[ph]={shop:'Ma boutique',products:[],sales:[],clients:[],ts:0};
+ persist();
+}
+function setL(l){S.lang=l;persist();render()}
+function logout(){S.cur=null;persist();AM='login';render()}
+const EN={"Votre abonnement expire dans":"Your subscription expires in","jour(s)":"day(s)","Vérifier mon abonnement":"Check my subscription","Code d'abonnement":"Subscription code","Activer mon abonnement":"Activate my subscription","Codes d'abonnement":"Subscription codes","Générer un code (30 jours)":"Generate a code (30 days)","Aucun code disponible.":"No code available.","Copier":"Copy","Code invalide ou déjà utilisé":"Invalid or already used code","Abonnement activé pour 30 jours":"Subscription activated for 30 days","Entrez votre code d'abonnement":"Enter your subscription code","Code copié":"Code copied","Renouveler mon abonnement":"Renew my subscription","Ton commerce. Ton téléphone. Ton entreprise.":"Your shop. Your phone. Your business.","Connexion":"Login","Créer un compte":"Create an account","Mot de passe oublié":"Forgot password","Se connecter":"Log in","Créer mon compte":"Create my account","Changer le mot de passe":"Change password","Retour à la connexion":"Back to login","Mot de passe oublié ?":"Forgot password?","Créé par Mamadou Samba Balde":"Created by Mamadou Samba Balde","Nimba Business · Créé par Mamadou Samba Balde":"Nimba Business · Created by Mamadou Samba Balde","Nom du commerce":"Shop name","Numéro de téléphone":"Phone number","Mot de passe":"Password","Nouveau mot de passe":"New password","Mot secret (pour retrouver votre compte)":"Secret word (to recover your account)","Votre mot secret":"Your secret word","Accueil":"Home","Ventes":"Sales","Ventes du jour":"Sales today","Bénéfice du jour":"Profit today","Nombre de ventes":"Number of sales","Valeur du stock":"Stock value","Dettes clients":"Customer debts","+ Nouvelle vente":"+ New sale","Voir les statistiques":"View statistics","Alertes de stock":"Stock alerts","Aucune alerte. Votre stock est suffisant.":"No alerts. Your stock is sufficient.","Rechercher un produit ou une catégorie":"Search a product or category","+ Produit":"+ Product","Aucun produit. Ajoutez votre premier produit pour commencer.":"No products yet. Add your first product to get started.","Modifier le produit":"Edit product","Nouveau produit":"New product","Nom du produit":"Product name","Catégorie":"Category","Prix d'achat":"Purchase price","Prix de vente":"Selling price","Quantité":"Quantity","Seuil d'alerte":"Alert threshold","Enregistrer le produit":"Save product","Supprimer le produit":"Delete product","Nouvelle vente":"New sale","Historique":"History","Rechercher un produit":"Search a product","Aucun produit en stock. Ajoutez des produits dans l'onglet Stock.":"No products in stock. Add products in the Stock tab.","Article libre":"Custom item","Écrivez vous-même un article qui n'est pas dans le stock":"Write an item yourself that is not in stock","Nom de l'article":"Item name","Prix d'achat (facultatif)":"Purchase price (optional)","Ajouter à la vente":"Add to sale","Choisir le client (obligatoire)":"Choose the customer (required)","Client (facultatif)":"Customer (optional)","Valider la vente":"Confirm sale","Espèces":"Cash","Dette":"Debt","Jour":"Day","Semaine":"Week","Mois":"Month","Rechercher (produit, client, paiement)":"Search (product, customer, payment)","Aucune vente sur cette période.":"No sales in this period.","Reçu de vente":"Sales receipt","Bénéfice":"Profit","Paiement":"Payment","Client":"Customer","Vente annulée":"Sale cancelled","Copier le reçu":"Copy receipt","Annuler la vente":"Cancel sale","+ Nouveau client":"+ New customer","Nouveau client":"New customer","Aucun client. Ajoutez vos clients pour suivre leurs dettes.":"No customers yet. Add customers to track their debts.","À jour":"Paid up","Pas de téléphone":"No phone","Nom du client":"Customer name","Téléphone":"Phone","Enregistrer le client":"Save customer","Achats":"Purchases","Dette actuelle":"Current debt","Enregistrer un remboursement":"Record a repayment","Appeler":"Call","Supprimer le client":"Delete customer","Chiffre d'affaires":"Revenue","Produits les plus vendus":"Best-selling products","Produits les plus rentables":"Most profitable products","Pas encore de ventes.":"No sales yet.","Abonnement":"Subscription","Abonnement Nimba Business":"Nimba Business subscription","Durée":"Duration","30 jours":"30 days","Produits":"Products","Illimités":"Unlimited","Valable jusqu'au":"Valid until","Comment abonner une personne":"How to subscribe a person","La personne crée son compte dans l'application.":"The person creates an account in the app.","Elle envoie 30 000 GNF par Orange Money au 614 55 37 23.":"They send 30,000 GNF by Orange Money to 614 55 37 23.","Elle présente la preuve de paiement (message de confirmation) à Mamadou Samba Balde, qui lui donne un code d'abonnement.":"They show the proof of payment (confirmation message) to Mamadou Samba Balde, who gives them a subscription code.","Elle saisit le code dans l'application : son abonnement est activé pour 30 jours.":"They enter the code in the app: their subscription is activated for 30 days.","À la fin des 30 jours, elle renouvelle de la même façon.":"After 30 days, they renew the same way.","Sauvegarde":"Backup","Exporter mes données":"Export my data","Importer une sauvegarde":"Import a backup","Se déconnecter":"Log out","Langue":"Language","Espace administrateur":"Admin area","Abonnement requis":"Subscription required","Votre abonnement est inactif ou a expiré.":"Your subscription is inactive or has expired.","J'ai payé : vérifier mon abonnement":"I have paid: check my subscription","Abonnés":"Subscribers","Téléphone du client":"Customer phone","Activer 30 jours":"Activate 30 days","Chargement...":"Loading...","Retour":"Back","Actif jusqu'au":"Active until","Non abonné":"Not subscribed","Aucun abonné.":"No subscribers.","+30 j":"+30 d","Erreur de chargement":"Loading error","Aucun compte avec ce numéro":"No account with this number","Abonnement activé":"Subscription activated","Abonnement pas encore activé":"Subscription not activated yet","Erreur":"Error","Activer 30 jours pour ":"Activate 30 days for ","Accès refusé par Firestore : vérifiez les règles":"Access denied by Firestore: check the rules","Connexion au serveur impossible. Vérifiez internet.":"Cannot reach the server. Check your internet.","Entrez un numéro de téléphone valide":"Enter a valid phone number","Mot de passe : 4 caractères minimum":"Password: 4 characters minimum","Choisissez un mot secret":"Choose a secret word","Numéro ou mot de passe incorrect":"Wrong number or password","Ce numéro a déjà un compte":"This number already has an account","Numéro ou mot secret incorrect":"Wrong number or secret word","Mot de passe changé. Connectez-vous.":"Password changed. Please log in.","Mémoire du téléphone pleine":"Phone storage full","Reçu copié":"Receipt copied","Copie impossible":"Copy failed","Entrez le nom du produit":"Enter the product name","Entrez le prix d'achat et le prix de vente":"Enter the purchase and selling prices","Produit enregistré":"Product saved","Choisissez le client qui doit payer plus tard":"Choose the customer who will pay later","Entrez le nom, le prix et la quantité":"Enter the name, price and quantity","Entrez le nom du client":"Enter the customer name","Remboursement enregistré":"Repayment recorded","Sauvegarde exportée":"Backup exported","Données importées":"Data imported","Fichier de sauvegarde invalide":"Invalid backup file","Supprimer ce produit ?":"Delete this product?","Annuler cette vente ? Le stock sera remis.":"Cancel this sale? Stock will be restored.","Supprimer ce client ?":"Delete this customer?","Remplacer les données actuelles ?":"Replace the current data?","Montant remboursé (GNF)":"Amount repaid (GNF)","Reçu du":"Receipt of","Total :":"Total:","Paiement :":"Payment:","Merci pour votre achat !":"Thank you for your purchase!"};
+const RX=[[/^(\d+) restant\(s\)$/,'$1 left'],[/^(\d+) vendu\(s\)$/,'$1 sold'],[/^Sans catégorie(?= ·)/,'No category'],[/\bAchat (?=\d)/,'Cost '],[/· Vente (?=\d)/,'· Sale '],[/· Remboursement$/,'· Repayment']];
+const t=s=>S.lang=='en'&&EN[s]||s;
+function trN(n){
+ if(S.lang!='en')return;
+ if(n.nodeType==3){const v=n.nodeValue,k=v.trim();if(!k)return;const r=EN[k];if(r)n.nodeValue=v.replace(k,()=>r);else{let o=v;RX.forEach(x=>{o=o.replace(x[0],x[1])});if(o!=v)n.nodeValue=o}}
+ else if(n.nodeType==1){if(n.placeholder&&EN[n.placeholder])n.placeholder=EN[n.placeholder];n.childNodes.forEach(trN)}
+}
+new MutationObserver(m=>m.forEach(r=>r.addedNodes.forEach(trN))).observe(document.body,{childList:true,subtree:true});
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',2400)}
+function modal(t,h){$('#modal').innerHTML=`<div class="ov" onclick="if(event.target==this)closeM()"><div class="sheet"><div class="sh"><b>${t}</b><button onclick="closeM()">✕</button></div>${h}</div></div>`}
+function closeM(){$('#modal').innerHTML=''}
+
+/* Écran 1 : démarrage */
+$('#app').innerHTML='<div class="splash"><div class="logo">N</div><h1>Nimba Business</h1><p style="margin-top:6px;opacity:.8">Ton commerce. Ton téléphone. Ton entreprise.</p><div class="bar2"><i></i></div></div>';
+function render(){
+ if(!(S.cur&&D()))return auth();
+ if(S.cur==ADMIN||subOK())app();else lock();
+}
+(async()=>{await new Promise(r=>setTimeout(r,1200));if(S.cur&&DB)await Promise.race([pull(),new Promise(r=>setTimeout(r,4000))]);render()})();
+
+/* Écran 2 : connexion / inscription */
+let AM='login';
+function auth(){
+ const t={login:'Connexion',signup:'Créer un compte',reset:'Mot de passe oublié'}[AM];
+ $('#app').innerHTML=`<div class="tri"></div><div class="auth"><div class="logo">N</div><h1>Nimba Business</h1><p class="sl">Ton commerce. Ton téléphone. Ton entreprise.</p>
+ <div class="card"><h3 style="margin-top:0">${t}</h3>
+ ${AM=='signup'?'<input id="a_s" placeholder="Nom du commerce">':''}
+ <input id="a_p" type="tel" placeholder="Numéro de téléphone">
+ <input id="a_w" type="password" placeholder="${AM=='reset'?'Nouveau mot de passe':'Mot de passe'}">
+ ${AM!='login'?`<input id="a_q" placeholder="${AM=='signup'?'Mot secret (pour retrouver votre compte)':'Votre mot secret'}">`:''}
+ <button class="btn" onclick="doAuth()">${AM=='login'?'Se connecter':AM=='signup'?'Créer mon compte':'Changer le mot de passe'}</button>
+ <div class="lnk">${AM=='login'?'<a onclick="AM=\'signup\';auth()">Créer un compte</a><a onclick="AM=\'reset\';auth()">Mot de passe oublié ?</a>':'<a onclick="AM=\'login\';auth()">Retour à la connexion</a>'}</div></div>
+ <p class="by"><a onclick="setL('fr')">Français</a> · <a onclick="setL('en')">English</a></p><p class="by">Créé par Mamadou Samba Balde</p></div>`}
+let BUSY=false;
+async function doAuth(){
+ if(BUSY)return;
+ const ph=norm($('#a_p').value),pw=$('#a_w').value||'',q=$('#a_q')?$('#a_q').value.trim().toLowerCase():'';
+ if(ph.length<8)return toast('Entrez un numéro de téléphone valide');
+ if(pw.length<4)return toast('Mot de passe : 4 caractères minimum');
+ if(AM=='signup'&&!q)return toast('Choisissez un mot secret');
+ BUSY=true;
+ try{
+  if(!DB)throw 0;
+  const ref=DB.collection('accounts').doc(ph),snap=await ref.get(),u=snap.exists?snap.data():null;
+  if(AM=='login'){if(!u||u.pw!=hs(pw))return toast('Numéro ou mot de passe incorrect')}
+  else if(AM=='signup'){
+   if(u)return toast('Ce numéro a déjà un compte');
+   const shop=($('#a_s').value||'').trim()||'Ma boutique';
+   await ref.set({pw:hs(pw),q:hs(q)});
+   await DB.collection('profiles').doc(ph).set({shop,subEnd:0,created:Date.now()});
+   S.data[ph]={shop,products:[],sales:[],clients:[],ts:Date.now()};
+  }else{
+   if(!u||u.q!=hs(q))return toast('Numéro ou mot secret incorrect');
+   await ref.update({pw:hs(pw)});AM='login';toast('Mot de passe changé. Connectez-vous.');return auth();
+  }
+  S.users=S.users.filter(x=>x.ph!=ph);S.users.push({ph,pw:hs(pw)});S.cur=ph;
+  await pull();persist();render();
+ }catch(e){
+  const lu=AM=='login'&&S.users.find(x=>x.ph==ph&&x.pw==hs(pw));
+  if(lu&&S.data[ph]){S.cur=ph;persist();render()}else toast(e&&e.code=='permission-denied'?'Accès refusé par Firestore : vérifiez les règles':'Connexion au serveur impossible. Vérifiez internet.');
+ }finally{BUSY=false}
+}
+function steps(){return '<ol style="padding-left:20px;font-size:14px;line-height:1.7"><li>La personne crée son compte dans l\'application.</li><li>Elle envoie 30 000 GNF par Orange Money au 614 55 37 23.</li><li>Elle présente la preuve de paiement (message de confirmation) à Mamadou Samba Balde, qui lui donne un code d\'abonnement.</li><li>Elle saisit le code dans l\'application : son abonnement est activé pour 30 jours.</li><li>À la fin des 30 jours, elle renouvelle de la même façon.</li></ol>'}
+function subBanner(){
+ if(S.cur==ADMIN)return '';
+ const d=Math.ceil(((S.sub[S.cur]||0)-Date.now())/864e5);
+ return d>0&&d<=5?`<div class="row warn" onclick="go('menu')"><span>${t('Votre abonnement expire dans')} ${d} ${t('jour(s)')}</span></div>`:'';
+}
+function lock(){
+ $('#app').innerHTML=`<div class="tri"></div><div class="auth"><div class="logo">N</div><h1>Abonnement requis</h1><p class="sl">Votre abonnement est inactif ou a expiré.</p><div class="card">${steps()}</div>${redeemUI()}<button class="btn ghost" onclick="recheck()">Vérifier mon abonnement</button><button class="btn ghost" onclick="logout()">Se déconnecter</button><p class="by"><a onclick="setL('fr')">Français</a> · <a onclick="setL('en')">English</a></p></div>`;
+}
+async function recheck(){await pull();render();if(S.cur&&!subOK()&&S.cur!=ADMIN)toast('Abonnement pas encore activé')}
+function admin(){
+ setTimeout(()=>{loadAdm();loadCodes()},0);
+ return `<h3>Codes d'abonnement</h3><div class="card"><button class="btn" onclick="genCode()">Générer un code (30 jours)</button><div id="cds"></div></div><h3>Abonnés</h3><div class="card"><input id="ad_p" type="tel" placeholder="Téléphone du client"><button class="btn" onclick="act($('#ad_p').value)">Activer 30 jours</button></div><div id="adm"><p class="empty">Chargement...</p></div><button class="btn ghost" onclick="go('menu')">Retour</button>`;
+}
+async function loadAdm(){
+ try{
+  const q=await DB.collection('profiles').get(),now=Date.now(),loc=S.lang=='en'?'en-GB':'fr-FR';
+  const l=q.docs.map(d=>Object.assign({ph:d.id},d.data())).filter(u=>u.ph!=ADMIN).sort((a,b)=>(b.created||0)-(a.created||0));
+  $('#adm').innerHTML=l.length?l.map(u=>`<div class="row"><div class="g"><b>${esc(u.shop||'')}</b><small>${esc(u.ph)} · ${u.subEnd>now?t("Actif jusqu'au")+' '+new Date(u.subEnd).toLocaleDateString(loc):t('Non abonné')}</small></div><button class="btn sm" onclick="act('${esc(u.ph)}')">+30 j</button></div>`).join(''):'<p class="empty">Aucun abonné.</p>';
+ }catch(e){const a=$('#adm');if(a)a.innerHTML='<p class="empty">Erreur de chargement</p>'}
+}
+const fmtC=c=>c.slice(0,4)+'-'+c.slice(4);
+const redeemUI=()=>`<div class="card"><input id="r_c" placeholder="Code d'abonnement" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:2px"><button class="btn" onclick="redeem()">Activer mon abonnement</button></div>`;
+async function redeem(){
+ const c=($('#r_c').value||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+ if(c.length<6)return toast("Entrez votre code d'abonnement");
+ if(BUSY)return;BUSY=true;
+ try{
+  const cr=DB.collection('codes').doc(c),pr=DB.collection('profiles').doc(S.cur);
+  const end=await DB.runTransaction(async tx=>{
+   const cs=await tx.get(cr),ps=await tx.get(pr);
+   if(!cs.exists||cs.data().used)throw 'bad';
+   const e=Math.max(ps.exists?(ps.data().subEnd||0):0,Date.now())+30*864e5;
+   tx.update(cr,{used:true,by:S.cur,at:Date.now()});
+   tx.set(pr,{subEnd:e},{merge:true});
+   return e;
+  });
+  S.sub[S.cur]=end;persist();toast('Abonnement activé pour 30 jours');render();
+ }catch(e){toast(e=='bad'?'Code invalide ou déjà utilisé':(e&&e.code=='permission-denied'?'Accès refusé par Firestore : vérifiez les règles':'Connexion au serveur impossible. Vérifiez internet.'))}
+ finally{BUSY=false}
+}
+async function genCode(){
+ const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=crypto.getRandomValues(new Uint8Array(8));let c='';
+ for(let i=0;i<8;i++)c+=A[r[i]%32];
+ try{await DB.collection('codes').doc(c).set({used:false,created:Date.now()});loadCodes()}catch(e){toast('Erreur')}
+}
+async function loadCodes(){
+ try{
+  const q=await DB.collection('codes').where('used','==',false).get();
+  const l=q.docs.map(d=>({c:d.id,t:d.data().created||0})).sort((a,b)=>b.t-a.t);
+  $('#cds').innerHTML=l.length?l.map(x=>`<div class="row"><div class="g"><b style="letter-spacing:2px">${fmtC(x.c)}</b></div><button class="btn sm" onclick="copyT('${x.c}')">Copier</button></div>`).join(''):'<p class="empty">Aucun code disponible.</p>';
+ }catch(e){const a=$('#cds');if(a)a.innerHTML='<p class="empty">Erreur de chargement</p>'}
+}
+function copyT(s){
+ const v=fmtC(s),ok=()=>toast('Code copié');
+ if(navigator.clipboard)navigator.clipboard.writeText(v).then(ok,()=>toast('Copie impossible'));
+ else{const a=document.createElement('textarea');a.value=v;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();ok()}
+}
+async function act(raw){
+ const ph=norm(raw);if(ph.length<8)return toast('Entrez un numéro de téléphone valide');
+ if(!confirm(t('Activer 30 jours pour ')+ph+' ?'))return;
+ try{
+  const ref=DB.collection('profiles').doc(ph),s=await ref.get();
+  if(!s.exists)return toast('Aucun compte avec ce numéro');
+  await ref.update({subEnd:Math.max(s.data().subEnd||0,Date.now())+30*864e5});
+  toast('Abonnement activé');loadAdm();
+ }catch(e){toast('Erreur')}
+}
+
+/* Coque de l'application */
+let T='home';
+function app(){
+ $('#app').innerHTML=`<header><div class="tri"></div><div class="hd"><b>${esc(D().shop)}</b><span>Nimba Business</span></div></header><main id="main"></main>
+ <nav>${[['home','🏠','Accueil'],['stock','📦','Stock'],['sales','🧾','Ventes'],['clients','👥','Clients'],['menu','☰','Menu']].map(n=>`<button id="n_${n[0]}" onclick="go('${n[0]}')"><i>${n[1]}</i>${n[2]}</button>`).join('')}</nav>`;
+ view();
+}
+function go(t){T=t;view()}
+function view(){
+ if(S.cur!=ADMIN&&!subOK())return lock();
+ $('#main').innerHTML=V[T]();
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('on'));
+ const n=$('#n_'+(T=='stats'?'home':T=='admin'?'menu':T));if(n)n.classList.add('on');
+ window.scrollTo(0,0);
+}
+const V={home,stock,sales,clients,stats,menu,admin};
+
+/* Périodes */
+function inP(p,all){
+ const n=new Date(),t=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime();
+ const f=p=='day'?t:p=='week'?t-6*864e5:new Date(n.getFullYear(),n.getMonth(),1).getTime();
+ return D().sales.filter(s=>s.ts>=f&&(all||!s.void)).sort((a,b)=>b.ts-a.ts);
+}
+function chips(v){return `<div class="seg">${[['day','Jour'],['week','Semaine'],['month','Mois']].map(c=>`<button class="${window.eval(v)==c[0]?'on':''}" onclick="${v}='${c[0]}';view()">${c[1]}</button>`).join('')}</div>`}
+const fd=ts=>new Date(ts).toLocaleString(S.lang=='en'?'en-GB':'fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+
+/* Écran 3 : accueil */
+function home(){
+ const d=D(),td=inP('day'),low=d.products.filter(p=>p.qty<=p.seuil);
+ return subBanner()+`<div class="kpis">
+ <div class="k big"><small>Ventes du jour</small><b>${fmt(sum(td,s=>s.total))}</b></div>
+ <div class="k"><small>Bénéfice du jour</small><b>${fmt(sum(td,s=>s.profit))}</b></div>
+ <div class="k"><small>Nombre de ventes</small><b>${td.length}</b></div>
+ <div class="k"><small>Valeur du stock</small><b>${fmt(sum(d.products,p=>p.achat*p.qty))}</b></div>
+ <div class="k"><small>Dettes clients</small><b>${fmt(sum(d.clients,c=>c.debt))}</b></div></div>
+ <button class="btn big" onclick="sv='new';go('sales')">+ Nouvelle vente</button>
+ <button class="btn ghost" onclick="go('stats')">Voir les statistiques</button>
+ <h3>Alertes de stock</h3>
+ ${low.length?low.map(p=>`<div class="row warn"><span>${esc(p.nom)}</span><b>${p.qty} restant(s)</b></div>`).join(''):'<p class="empty">Aucune alerte. Votre stock est suffisant.</p>'}`;
+}
+
+/* Écrans 4-5 : stock et produit */
+let Q='',PH='';
+const phv=p=>p.photo?`<img class="ph" src="${p.photo}">`:`<div class="ph">${esc((p.nom||'?')[0]).toUpperCase()}</div>`;
+function stock(){return `<div class="bar"><input id="q" placeholder="Rechercher un produit ou une catégorie" value="${esc(Q)}" oninput="Q=this.value;$('#plist').innerHTML=plist()"><button class="btn sm" onclick="pForm()">+ Produit</button></div><div id="plist">${plist()}</div>`}
+function plist(){
+ const q=Q.toLowerCase(),l=D().products.filter(p=>(p.nom+' '+(p.cat||'')).toLowerCase().includes(q));
+ return l.length?l.map(p=>`<div class="row" onclick="pForm('${p.id}')">${phv(p)}<div class="g"><b>${esc(p.nom)}</b><small>${esc(p.cat||'Sans catégorie')} · Achat ${fmt(p.achat)} · Vente ${fmt(p.vente)}</small></div><span class="qty ${p.qty<=p.seuil?'low':''}">${p.qty}</span></div>`).join(''):'<p class="empty">Aucun produit. Ajoutez votre premier produit pour commencer.</p>';
+}
+function pForm(id){
+ const p=id?D().products.find(x=>x.id==id):{};PH=p.photo||'';
+ modal(id?'Modifier le produit':'Nouveau produit',`
+ <label>Photo</label><br><input type="file" accept="image/*" onchange="pic(this)"><img id="pv" class="pv" src="${PH}" ${PH?'':'hidden'}>
+ <input id="f_n" placeholder="Nom du produit" value="${esc(p.nom)}">
+ <input id="f_c" placeholder="Catégorie" value="${esc(p.cat)}">
+ <div class="two"><input id="f_a" type="number" inputmode="decimal" placeholder="Prix d'achat" value="${p.achat==null?'':p.achat}"><input id="f_v" type="number" inputmode="decimal" placeholder="Prix de vente" value="${p.vente==null?'':p.vente}"></div>
+ <div class="two"><input id="f_q" type="number" inputmode="numeric" placeholder="Quantité" value="${p.qty==null?'':p.qty}"><input id="f_s" type="number" inputmode="numeric" placeholder="Seuil d'alerte" value="${p.seuil==null?'':p.seuil}"></div>
+ <button class="btn" onclick="pSave('${id||''}')">Enregistrer le produit</button>${id?`<button class="btn danger" onclick="pDel('${id}')">Supprimer le produit</button>`:''}`);
+}
+function pic(i){
+ const f=i.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,160/Math.max(im.width,im.height));c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);PH=c.toDataURL('image/jpeg',.6);$('#pv').src=PH;$('#pv').hidden=false};im.src=r.result};
+ r.readAsDataURL(f);
+}
+function pSave(id){
+ const nom=$('#f_n').value.trim(),a=parseFloat($('#f_a').value),v=parseFloat($('#f_v').value),q=parseInt($('#f_q').value),s=parseInt($('#f_s').value);
+ if(!nom)return toast('Entrez le nom du produit');
+ if(isNaN(a)||isNaN(v)||a<0||v<0)return toast('Entrez le prix d\'achat et le prix de vente');
+ const o={nom,cat:$('#f_c').value.trim(),achat:a,vente:v,qty:isNaN(q)?0:Math.max(0,q),seuil:isNaN(s)?3:Math.max(0,s),photo:PH};
+ if(id)Object.assign(D().products.find(x=>x.id==id),o);else D().products.push(Object.assign({id:uid()},o));
+ save();closeM();view();toast('Produit enregistré');
+}
+function pDel(id){if(!confirm(t('Supprimer ce produit ?')))return;D().products=D().products.filter(x=>x.id!=id);save();closeM();view()}
+
+/* Écran 6 : nouvelle vente / écran 7 : historique */
+let sv='new',cart={},cust=[],SQ='',PAY='Espèces',CL='',HP='day',HQ='';
+function sales(){return `<div class="seg"><button class="${sv=='new'?'on':''}" onclick="sv='new';view()">Nouvelle vente</button><button class="${sv=='hist'?'on':''}" onclick="sv='hist';view()">Historique</button></div>`+(sv=='new'?newSale():hist())}
+const cartL=()=>Object.keys(cart).map(id=>({p:D().products.find(x=>x.id==id),q:cart[id]})).filter(x=>x.p);
+function newSale(){return `<input placeholder="Rechercher un produit" value="${esc(SQ)}" oninput="SQ=this.value;updS()"><div id="slist">${slist()}</div>
+ <div class="card"><b>Article libre</b><small style="display:block;color:var(--mu);margin-bottom:4px">Écrivez vous-même un article qui n'est pas dans le stock</small>
+ <input id="x_n" placeholder="Nom de l'article"><div class="two"><input id="x_p" type="number" inputmode="decimal" placeholder="Prix de vente"><input id="x_q" type="number" inputmode="numeric" placeholder="Quantité" value="1"></div>
+ <input id="x_c" type="number" inputmode="decimal" placeholder="Prix d'achat (facultatif)"><button class="btn ghost" onclick="addX()">Ajouter à la vente</button></div>
+ <div class="card" id="stot">${stot()}</div>`}
+function addX(){
+ const n=$('#x_n').value.trim(),p=parseFloat($('#x_p').value),q=parseInt($('#x_q').value)||1,c=parseFloat($('#x_c').value)||0;
+ if(!n||isNaN(p)||p<0||q<1)return toast("Entrez le nom, le prix et la quantité");
+ cust.push({nom:n,p,q,c});['x_n','x_p','x_c'].forEach(i=>$('#'+i).value='');$('#x_q').value=1;updS();
+}
+function updS(){$('#slist').innerHTML=slist();$('#stot').innerHTML=stot()}
+function slist(){
+ const q=SQ.toLowerCase(),l=D().products.filter(p=>p.qty>0&&p.nom.toLowerCase().includes(q));
+ return l.length?l.map(p=>`<div class="row">${phv(p)}<div class="g"><b>${esc(p.nom)}</b><small>${fmt(p.vente)} · stock ${p.qty}</small></div><div class="ctl"><button onclick="chg('${p.id}',-1)">−</button><b>${cart[p.id]||0}</b><button onclick="chg('${p.id}',1)">+</button></div></div>`).join(''):'<p class="empty">Aucun produit en stock. Ajoutez des produits dans l\'onglet Stock.</p>';
+}
+function chg(id,n){const p=D().products.find(x=>x.id==id),v=Math.max(0,Math.min(p.qty,(cart[id]||0)+n));if(v)cart[id]=v;else delete cart[id];updS()}
+function stot(){
+ const L=cartL(),t=sum(L,x=>x.p.vente*x.q)+sum(cust,x=>x.p*x.q);
+ return `<div class="tot"><span>Total</span><b>${fmt(t)}</b></div>${cust.map((x,i)=>`<div class="line"><span>${x.q} × ${esc(x.nom)}</span><b>${fmt(x.p*x.q)} <a onclick="cust.splice(${i},1);updS()" style="color:var(--r)">✕</a></b></div>`).join('')}
+ <select onchange="PAY=this.value;updS()">${['Espèces','Orange Money','MTN MoMo','Dette'].map(m=>`<option value="${m}" ${m==PAY?'selected':''}>${m}</option>`).join('')}</select>
+ <select onchange="CL=this.value"><option value="">${PAY=='Dette'?'Choisir le client (obligatoire)':'Client (facultatif)'}</option>${D().clients.map(c=>`<option value="${c.id}" ${c.id==CL?'selected':''}>${esc(c.nom)}</option>`).join('')}</select>
+ <button class="btn" onclick="validate()" ${L.length||cust.length?'':'disabled'}>Valider la vente</button>`;
+}
+function validate(){
+ const L=cartL();if(!L.length&&!cust.length)return;
+ if(PAY=='Dette'&&!CL)return toast('Choisissez le client qui doit payer plus tard');
+ const s={id:uid(),ts:Date.now(),pay:PAY,cid:CL||'',items:L.map(x=>({id:x.p.id,nom:x.p.nom,q:x.q,p:x.p.vente,c:x.p.achat})).concat(cust.map(x=>({id:'',nom:x.nom,q:x.q,p:x.p,c:x.c}))),total:0,profit:0};
+ s.total=sum(s.items,i=>i.p*i.q);s.profit=sum(s.items,i=>(i.p-i.c)*i.q);
+ L.forEach(x=>x.p.qty-=x.q);
+ if(PAY=='Dette')D().clients.find(c=>c.id==CL).debt+=s.total;
+ D().sales.push(s);cart={};cust=[];PAY='Espèces';CL='';save();view();receipt(s.id);
+}
+function hist(){return `${chips('HP')}<input placeholder="Rechercher (produit, client, paiement)" value="${esc(HQ)}" oninput="HQ=this.value;$('#hl').innerHTML=hl()"><div id="hl">${hl()}</div>`}
+const cname=id=>{const c=D().clients.find(x=>x.id==id);return c?c.nom:''};
+function hl(){
+ const q=HQ.toLowerCase(),l=inP(HP,true).filter(s=>(s.items.map(i=>i.nom).join(' ')+' '+cname(s.cid)+' '+s.pay).toLowerCase().includes(q));
+ return l.length?l.map(s=>`<div class="row ${s.void?'void':''}" onclick="receipt('${s.id}')"><div class="g"><b>${fmt(s.total)}</b><small>${fd(s.ts)} · ${esc(t(s.pay))}${s.cid?' · '+esc(cname(s.cid)):''}<br>${esc(s.items.map(i=>i.q+'× '+i.nom).join(', '))}</small></div><span class="qty">+${fmt(s.profit)}</span></div>`).join(''):'<p class="empty">Aucune vente sur cette période.</p>';
+}
+function rtext(s){return `${D().shop}\n${t('Reçu du')} ${fd(s.ts)}\n`+s.items.map(i=>`${i.q} x ${i.nom} = ${fmt(i.p*i.q)}`).join('\n')+`\n${t('Total :')} ${fmt(s.total)}\n${t('Paiement :')} ${t(s.pay)}\n${t('Merci pour votre achat !')}`}
+function copyR(id){
+ const t=rtext(D().sales.find(x=>x.id==id));
+ const ok=()=>toast('Reçu copié');
+ if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,()=>toast('Copie impossible'));
+ else{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();ok()}
+}
+function receipt(id){
+ const s=D().sales.find(x=>x.id==id);if(!s)return;
+ modal('Reçu de vente',`<div class="card">${s.items.map(i=>`<div class="line"><span>${i.q} × ${esc(i.nom)}</span><b>${fmt(i.p*i.q)}</b></div>`).join('')}
+ <div class="line"><span>Total</span><b>${fmt(s.total)}</b></div><div class="line"><span>Bénéfice</span><b>${fmt(s.profit)}</b></div>
+ <div class="line"><span>Paiement</span><b>${esc(t(s.pay))}</b></div>${s.cid?`<div class="line"><span>Client</span><b>${esc(cname(s.cid))}</b></div>`:''}
+ <div class="line"><span>Date</span><b>${fd(s.ts)}</b></div>${s.void?'<p style="color:var(--r);font-weight:700;margin-top:8px">Vente annulée</p>':''}</div>
+ <button class="btn" onclick="copyR('${s.id}')">Copier le reçu</button>
+ ${s.void?'':`<button class="btn danger" onclick="voidS('${s.id}')">Annuler la vente</button>`}`);
+}
+function voidS(id){
+ if(!confirm(t('Annuler cette vente ? Le stock sera remis.')))return;
+ const s=D().sales.find(x=>x.id==id);
+ s.items.forEach(i=>{const p=D().products.find(x=>x.id==i.id);if(p)p.qty+=i.q});
+ if(s.pay=='Dette'){const c=D().clients.find(x=>x.id==s.cid);if(c)c.debt=Math.max(0,c.debt-s.total)}
+ s.void=true;save();closeM();view();toast('Vente annulée');
+}
+
+/* Écran 8 : clients et dettes */
+function clients(){
+ const l=D().clients;
+ return `<button class="btn" onclick="cForm()">+ Nouveau client</button>`+(l.length?l.map(c=>`<div class="row" onclick="cDet('${c.id}')"><div class="ph">${esc(c.nom[0]).toUpperCase()}</div><div class="g"><b>${esc(c.nom)}</b><small>${esc(c.tel||'Pas de téléphone')}</small></div><span class="qty ${c.debt>0?'low':''}">${c.debt>0?fmt(c.debt):'À jour'}</span></div>`).join(''):'<p class="empty">Aucun client. Ajoutez vos clients pour suivre leurs dettes.</p>');
+}
+function cForm(){modal('Nouveau client',`<input id="c_n" placeholder="Nom du client"><input id="c_t" type="tel" placeholder="Téléphone"><button class="btn" onclick="cSave()">Enregistrer le client</button>`)}
+function cSave(){const n=$('#c_n').value.trim();if(!n)return toast('Entrez le nom du client');D().clients.push({id:uid(),nom:n,tel:$('#c_t').value.trim(),debt:0,pays:[]});save();closeM();view()}
+function cDet(id){
+ const c=D().clients.find(x=>x.id==id),ss=D().sales.filter(s=>s.cid==id&&!s.void).sort((a,b)=>b.ts-a.ts);
+ modal(esc(c.nom),`<div class="card"><div class="line"><span>Téléphone</span><b>${esc(c.tel||'-')}</b></div><div class="line"><span>Achats</span><b>${fmt(sum(ss,s=>s.total))}</b></div><div class="line"><span>Dette actuelle</span><b style="color:${c.debt>0?'var(--r)':'var(--g)'}">${fmt(c.debt)}</b></div></div>
+ ${c.debt>0?`<button class="btn" onclick="repay('${id}')">Enregistrer un remboursement</button>`:''}
+ ${c.tel?`<a class="btn ghost" style="text-decoration:none;text-align:center" href="tel:${esc(c.tel)}">Appeler</a>`:''}
+ <h3>Historique</h3>${ss.map(s=>`<div class="line"><span>${fd(s.ts)} · ${esc(t(s.pay))}</span><b>${fmt(s.total)}</b></div>`).join('')}${(c.pays||[]).map(p=>`<div class="line"><span>${fd(p.ts)} · Remboursement</span><b>-${fmt(p.a)}</b></div>`).join('')||''}
+ <button class="btn danger" onclick="cDel('${id}')">Supprimer le client</button>`);
+}
+function repay(id){
+ const c=D().clients.find(x=>x.id==id),a=parseFloat(prompt(t('Montant remboursé (GNF)')));
+ if(!a||a<=0)return;const m=Math.min(a,c.debt);c.debt-=m;(c.pays=c.pays||[]).push({ts:Date.now(),a:m});save();cDet(id);view();toast('Remboursement enregistré');
+}
+function cDel(id){if(!confirm(t('Supprimer ce client ?')))return;D().clients=D().clients.filter(x=>x.id!=id);save();closeM();view()}
+
+/* Écran 9 : statistiques */
+let SP='month';
+function stats(){
+ const l=inP(SP),m={};
+ l.forEach(s=>s.items.forEach(i=>{const o=m[i.nom]||(m[i.nom]={nom:i.nom,q:0,b:0});o.q+=i.q;o.b+=(i.p-i.c)*i.q}));
+ const A=Object.values(m),top=(k)=>A.slice().sort((a,b)=>b[k]-a[k]).slice(0,5).map(o=>`<div class="line"><span>${esc(o.nom)}</span><b>${k=='q'?o.q+' vendu(s)':fmt(o.b)}</b></div>`).join('')||'<p class="empty">Pas encore de ventes.</p>';
+ return `${chips('SP')}<div class="kpis"><div class="k big"><small>Chiffre d'affaires</small><b>${fmt(sum(l,s=>s.total))}</b></div><div class="k"><small>Bénéfice</small><b>${fmt(sum(l,s=>s.profit))}</b></div><div class="k"><small>Ventes</small><b>${l.length}</b></div></div>
+ <h3>Produits les plus vendus</h3><div class="card">${top('q')}</div><h3>Produits les plus rentables</h3><div class="card">${top('b')}</div>`;
+}
+
+/* Écran 10 : menu / profil */
+function menu(){
+ return `<div class="card"><label>Nom du commerce</label><input id="m_s" value="${esc(D().shop)}" onchange="D().shop=this.value.trim()||'Ma boutique';save();app();go('menu')"></div>
+ <h3>Abonnement</h3><div class="card"><div class="plan"><span>Abonnement Nimba Business</span><b>30 000 GNF</b></div><div class="plan"><span>Durée</span><b>30 jours</b></div><div class="plan"><span>Produits</span><b>Illimités</b></div>${S.cur!=ADMIN&&S.sub[S.cur]?`<div class="plan"><span>Valable jusqu'au</span><b>${new Date(S.sub[S.cur]).toLocaleDateString(S.lang=='en'?'en-GB':'fr-FR')}</b></div>`:''}
+ <h3>Comment abonner une personne</h3>${steps()}</div>
+ ${S.cur!=ADMIN?'<h3>Renouveler mon abonnement</h3>'+redeemUI():''}
+ ${S.cur==ADMIN?'<button class="btn" onclick="go(\'admin\')">Espace administrateur</button>':''}
+ <h3>Langue</h3><div class="seg"><button class="${S.lang=='fr'?'on':''}" onclick="setL('fr')">Français</button><button class="${S.lang=='en'?'on':''}" onclick="setL('en')">English</button></div>
+ <h3>Sauvegarde</h3><button class="btn ghost" onclick="exp()">Exporter mes données</button>
+ <label class="btn ghost" style="text-align:center">Importer une sauvegarde<input type="file" accept=".json" hidden onchange="imp(this)"></label>
+ <button class="btn danger" onclick="logout()">Se déconnecter</button>
+ <p class="by" style="text-align:center">Nimba Business · Créé par Mamadou Samba Balde</p>`;
+}
+function exp(){
+ const b=new Blob([JSON.stringify(D())],{type:'application/json'}),a=document.createElement('a');
+ a.href=URL.createObjectURL(b);a.download='nimba-sauvegarde.json';document.body.appendChild(a);a.click();a.remove();toast('Sauvegarde exportée');
+}
+function imp(i){
+ const f=i.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.products||!d.sales||!d.clients)throw 0;if(!confirm(t('Remplacer les données actuelles ?')))return;S.data[S.cur]=d;save();app();toast('Données importées')}catch(e){toast('Fichier de sauvegarde invalide')}};
+ r.readAsText(f);
+}
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')==0)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
